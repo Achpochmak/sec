@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   proxy:
     build:
@@ -17,8 +16,6 @@ services:
       - proxy
     networks:
       - app-network
-    volumes:
-      - ./webapi:/app  
 
 networks:
   app-network:

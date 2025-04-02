@@ -39,6 +39,7 @@ func handleProxyRequest(clientConn net.Conn) {
 	}
 
 	targetURL := req.URL
+	targetURL.Host = "webapi"
 	if targetURL.Scheme == "" {
 		targetURL, err = url.Parse(req.RequestURI)
 		if err != nil {
@@ -47,7 +48,9 @@ func handleProxyRequest(clientConn net.Conn) {
 		}
 	}
 
-	targetConn, err := net.Dial("tcp", targetURL.Host)
+	log.Printf("Target URL: %s", targetURL.String())
+
+	targetConn, err := net.Dial("tcp", targetURL.Host+":8000")
 	if err != nil {
 		log.Println("Error connecting to target:", err)
 		return

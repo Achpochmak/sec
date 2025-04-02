@@ -24,6 +24,7 @@ type RequestDetails struct {
 
 func getRequestsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	requests = append(requests, *r)
 	json.NewEncoder(w).Encode(requests)
 }
 
@@ -60,7 +61,6 @@ func repeatRequestHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	req := requests[id]
-	// Copy the request (necessary to avoid modifying the original)
 	newReq, err := http.NewRequest(req.Method, req.URL.String(), req.Body)
 	if err != nil {
 		http.Error(w, "Error creating new request", http.StatusInternalServerError)

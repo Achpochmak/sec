@@ -1,9 +1,10 @@
+# Build stage
 FROM golang:1.24-alpine AS builder
 WORKDIR /app
 COPY . .
-RUN go mod init webapi && go get github.com/gorilla/mux@latest
 RUN go build -o webapi main.go
 
+# Runtime stage
 FROM alpine:latest
 WORKDIR /app
 COPY --from=builder /app/webapi .
