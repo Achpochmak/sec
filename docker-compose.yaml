@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  proxy:
+    build:
+      context: ./proxy
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+  webapi:
+    build:
+      context: ./webapi
+    ports:
+      - "8000:8000"
+    depends_on:
+      - proxy
+    networks:
+      - app-network
+    volumes:
+      - ./webapi:/app  
+
+networks:
+  app-network:
+    driver: bridge
